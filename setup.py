@@ -1,5 +1,5 @@
 from setuptools import dist
-dist.Distribution().fetch_build_eggs(['numpy>=1.13, <=1.19.3'])
+dist.Distribution().fetch_build_eggs(['numpy==1.13'])
 
 import os
 import sys
