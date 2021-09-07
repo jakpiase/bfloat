@@ -1,6 +1,3 @@
-from setuptools import dist
-dist.Distribution().fetch_build_eggs(['numpy==1.13'])
-
 import os
 import sys
 import shutil
