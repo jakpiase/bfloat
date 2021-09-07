@@ -21,6 +21,7 @@ limitations under the License.
 #include <array>
 #include <locale>
 #include <cmath>
+#include <cfloat>
 
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 // #define DEBUG_CALLS

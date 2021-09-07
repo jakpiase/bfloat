@@ -40,11 +40,10 @@ class my_build_ext(build_ext):
             pass
         build_ext.build_extensions(self)
 
-extra_compile_args = '-std=c++11' if sys.platform == "linux" else "/std:c++11"
 
 module1 = Extension(PACKAGE_NAME,
                     sources=['bfloat16.cc'],
-                    extra_compile_args=[extra_compile_args])
+                    extra_compile_args=['-std=c++11'])
 
 setup(name=PACKAGE_NAME,
       version='1.1',
