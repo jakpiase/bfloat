@@ -20,6 +20,7 @@ limitations under the License.
 #include <iostream>
 #include <array>
 #include <locale>
+#include <cmath>
 
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 // #define DEBUG_CALLS
@@ -38,11 +39,6 @@ limitations under the License.
 #ifndef M_PI
     #define M_PI 3.14159265358979323846
 #endif
-
-namespace std
-{
-    #include <cstdlib>
-};
 
 namespace greenwaves
 {
