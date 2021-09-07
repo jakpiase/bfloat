@@ -21,7 +21,6 @@ limitations under the License.
 #include <array>
 #include <locale>
 #include <cmath>
-#include <cfloat>
 
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 // #define DEBUG_CALLS
@@ -40,6 +39,10 @@ limitations under the License.
 #ifndef M_PI
     #define M_PI 3.14159265358979323846
 #endif
+
+constexpr float copysgn(float __x, float __y){
+	return __builtin_copysignf(__x, __y);
+}
 
 namespace greenwaves
 {
@@ -1057,7 +1060,7 @@ namespace greenwaves
 				}
 				else
 				{
-					mod = std::copysign(0.0f, b);
+					mod = copysgn(0.0f, b);
 				}
 
 				float floordiv;
@@ -1071,7 +1074,7 @@ namespace greenwaves
 				}
 				else
 				{
-					floordiv = std::copysign(0.0f, a / b);
+					floordiv = copysgn(0.0f, a / b);
 				}
 				return {floordiv, mod};
 			}
@@ -1168,7 +1171,7 @@ namespace greenwaves
 				bfloat16 operator()(bfloat16 a, bfloat16 b)
 				{
 					return bfloat16(
-						std::copysign(static_cast<float>(a), static_cast<float>(b)));
+						copysgn(static_cast<float>(a), static_cast<float>(b)));
 				}
 			};
 			struct Exp
