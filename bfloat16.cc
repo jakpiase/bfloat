@@ -35,6 +35,12 @@ limitations under the License.
 #include "numpy/arrayobject.h"
 #include "numpy/ufuncobject.h"
 
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+
+using namespace std;
+
 namespace greenwaves
 {
 	namespace
