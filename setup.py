@@ -1,5 +1,5 @@
 from setuptools import dist
-dist.Distribution().fetch_build_eggs(['numpy==1.13'])
+dist.Distribution().fetch_build_eggs(['numpy>=1.13'])
 
 import os
 import sys
@@ -52,7 +52,7 @@ setup(name=PACKAGE_NAME,
       author_email='support@greenwaves-technologies.com',
       url='https://github.com/GreenWaves-Technologies/bfloat16',
       download_url = 'https://github.com/GreenWaves-Technologies/bfloat16/archive/refs/tags/1.0.tar.gz',
-      setup_requires=['numpy==1.13', 'setuptools==52.0.0'],
+      setup_requires=['numpy>=1.13', 'setuptools==52.0.0'],
       ext_modules=[module1],
       packages=find_packages(),
       cmdclass={'build_ext': my_build_ext})
