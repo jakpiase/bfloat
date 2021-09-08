@@ -40,8 +40,8 @@ limitations under the License.
     #define M_PI 3.14159265358979323846
 #endif
 
-constexpr float copysgn(float __x, float __y){
-	return __builtin_copysignf(__x, __y);
+float signcopy (float x, float y){
+  return (signbit (x) != signbit (y) ? - x : x);
 }
 
 namespace greenwaves
@@ -1060,7 +1060,7 @@ namespace greenwaves
 				}
 				else
 				{
-					mod = copysgn(0.0f, b);
+					mod = signcopy(0.0f, b);
 				}
 
 				float floordiv;
@@ -1074,7 +1074,7 @@ namespace greenwaves
 				}
 				else
 				{
-					floordiv = copysgn(0.0f, a / b);
+					floordiv = signcopy(0.0f, a / b);
 				}
 				return {floordiv, mod};
 			}
@@ -1171,7 +1171,7 @@ namespace greenwaves
 				bfloat16 operator()(bfloat16 a, bfloat16 b)
 				{
 					return bfloat16(
-						copysgn(static_cast<float>(a), static_cast<float>(b)));
+						signcopy(static_cast<float>(a), static_cast<float>(b)));
 				}
 			};
 			struct Exp
