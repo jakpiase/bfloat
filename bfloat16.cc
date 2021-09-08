@@ -40,6 +40,8 @@ limitations under the License.
     #define M_PI 3.14159265358979323846
 #endif
 
+using namespace std;
+
 float signcopy (float x, float y){
   return (signbit (x) != signbit (y) ? - x : x);
 }
