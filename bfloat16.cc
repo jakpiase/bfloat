@@ -1693,10 +1693,13 @@ namespace greenwaves
 
 	} // namespace
 
+	// needed because in python < 3 import_array() returns void which causes error in Initialize()
+	void wrapper_import_array() {import_array()}
+
 	// Initializes the module.
 	bool Initialize()
 	{
-		import_array();
+		wrapper_import_array();
 		import_umath1(false);
 
 		Safe_PyObjectPtr numpy_str = make_safe(PyUnicode_FromString("numpy"));
