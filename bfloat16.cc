@@ -2059,25 +2059,41 @@ namespace greenwaves
 		{NULL, NULL, 0, NULL}
 	};
 
-	static struct PyModuleDef Bfloat16Module = {
-		PyModuleDef_HEAD_INIT,
-		"numpy_bfloat16",
-		NULL,
-		-1,
-		Bfloat16ModuleMethods,
-		NULL,
-		NULL,
-		NULL,
-		NULL
-	};
+//	static struct PyModuleDef Bfloat16Module = {
+//		PyModuleDef_HEAD_INIT,
+//		"numpy_bfloat16",
+//		NULL,
+//		-1,
+//		Bfloat16ModuleMethods,
+//		NULL,
+//		NULL,
+//		NULL,
+//		NULL
+//	};
 
-	PyMODINIT_FUNC
-	PyInit_bfloat(void)
+#if PY_MAJOR_VERSION >= 3
+  #define MOD_ERROR_VAL NULL
+  #define MOD_SUCCESS_VAL(val) val
+  #define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
+  #define MOD_DEF(ob, name, methods) \
+		  static struct PyModuleDef moduledef = { \
+			PyModuleDef_HEAD_INIT, name, NULL, -1, methods, NULL, NULL, NULL, NULL}; \
+		  ob = PyModule_Create(&moduledef);
+#else
+  #define MOD_ERROR_VAL
+  #define MOD_SUCCESS_VAL(val)
+  #define MOD_INIT(name) void init##name(void)
+  #define MOD_DEF(ob, name, methods) \
+		  ob = Py_InitModule3(name, methods, NULL);
+#endif
+
+	MOD_INIT(bfloat)
 	{
 		PyObject *m;
-		m = PyModule_Create(&Bfloat16Module);
+		MOD_DEF(m, "bfloat", NULL, Bfloat16ModuleMethods)
+		//m = PyModule_Create(&Bfloat16Module);
 		if (m == NULL)
-			return NULL;
+			return MOD_ERROR_VAL;
 		RegisterNumpyBfloat16();
 		Py_INCREF(&bfloat16_type);
 		Py_XINCREF(&NPyBfloat16_Descr);
@@ -2088,6 +2104,6 @@ namespace greenwaves
 			return NULL;
 		}
 
-		return m;
+		return MOD_SUCCESS_VAL(m);
 	}
 } // namespace greenwaves

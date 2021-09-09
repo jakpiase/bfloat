@@ -12,7 +12,7 @@ PACKAGE_NAME='bfloat'
 
 if 'clean' in sys.argv:
     curdir = os.path.dirname(os.path.realpath(__file__))
-    for filepath in ['build', 'dist', f'{PACKAGE_NAME}.egg-info', 'MANIFEST']:
+    for filepath in ['build', 'dist', PACKAGE_NAME + '.egg-info', 'MANIFEST']:
         if os.path.exists(filepath):
             if os.path.isfile(filepath):
                 os.remove(filepath)
@@ -53,7 +53,7 @@ setup(name=PACKAGE_NAME,
       author_email='support@greenwaves-technologies.com',
       url='https://github.com/GreenWaves-Technologies/bfloat16',
       download_url = 'https://github.com/GreenWaves-Technologies/bfloat16/archive/refs/tags/1.0.tar.gz',
-      setup_requires=['numpy>=1.13', 'setuptools==52.0.0'],
+      setup_requires=['numpy>=1.13'],
       ext_modules=[module1],
       packages=find_packages(),
       cmdclass={'build_ext': my_build_ext})
