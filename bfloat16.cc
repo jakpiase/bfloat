@@ -297,30 +297,49 @@ namespace greenwaves
 			return PyLong_FromLong(y);
 		}
 
+	#if PY_MAJOR_VERSION >= 3
+	  #define nb_divide
+	  #define nb_coerce
+	  #define nb_oct
+	  #define nb_hex
+	  #define nb_inplace_multiply
+	#else
+	  #define nb_divide nullptr,
+	  #define nb_coerce nullptr,
+	  #define nb_oct	nullptr,
+	  #define nb_hex	nullptr,
+	  #define nb_inplace_multiply nullptr,
+	#ifndef
+
 		PyNumberMethods PyBfloat16_AsNumber = {
 			nullptr,     	  	// nb_add
 			nullptr,  			// nb_subtract
 			nullptr,  			// nb_multiply
+			nb_divide
 			nullptr,              // nb_remainder
 			nullptr,              // nb_divmod
 			nullptr,              // nb_power
 			nullptr,  			  // nb_negative
 			nullptr,              // nb_positive
 			nullptr,              // nb_absolute
-			nullptr,              // nb_nonzero
+			nullptr,              // nb_nonzero / nb_bool
 			nullptr,              // nb_invert
 			nullptr,              // nb_lshift
 			nullptr,              // nb_rshift
 			nullptr,              // nb_and
 			nullptr,              // nb_xor
 			nullptr,              // nb_or
+			nb_coerce
 			PyBfloat16_Int,       // nb_int
 			nullptr,              // reserved
 			PyBfloat16_Float,     // nb_float
+			nb_oct
+			nb_hex
 
 			nullptr,  // nb_inplace_add
 			nullptr,  // nb_inplace_subtract
 			nullptr,  // nb_inplace_multiply
+			nb_inplace_multiply
 			nullptr,  // nb_inplace_remainder
 			nullptr,  // nb_inplace_power
 			nullptr,  // nb_inplace_lshift
