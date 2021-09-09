@@ -278,7 +278,7 @@ namespace greenwaves
 
 		// Hash function for PyBfloat16. We use the identity function, which is a weak
 		// hash function.
-		Py_hash_t PyBfloat16_Hash(PyObject *self)
+		long PyBfloat16_Hash(PyObject *self)
 		{
 			bfloat16 x = reinterpret_cast<PyBfloat16 *>(self)->value;
 			return x.value;
