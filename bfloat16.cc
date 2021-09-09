@@ -2083,14 +2083,14 @@ namespace greenwaves
   #define MOD_ERROR_VAL
   #define MOD_SUCCESS_VAL(val)
   #define MOD_INIT(name) void init##name(void)
-  #define MOD_DEF(ob, name, methods) \
+  #define MOD_DEF(ob, name, methods) \-
 		  ob = Py_InitModule3(name, methods, NULL);
 #endif
 
 	MOD_INIT(bfloat)
 	{
 		PyObject *m;
-		MOD_DEF(m, "bfloat", NULL, Bfloat16ModuleMethods)
+		MOD_DEF(m, "bfloat", Bfloat16ModuleMethods)
 		//m = PyModule_Create(&Bfloat16Module);
 		if (m == NULL)
 			return MOD_ERROR_VAL;
