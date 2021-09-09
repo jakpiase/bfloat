@@ -1694,7 +1694,13 @@ namespace greenwaves
 	} // namespace
 
 	// needed because in python < 3 import_array() returns void which causes error in Initialize()
-	void wrapper_import_array() {import_array()}
+	
+	#if PY_MAJOR_VERSION >= 3
+	  #define import_array_return_type int
+	#else
+      #define import_array_return_type void
+	#endif
+	import_array_return_type wrapper_import_array() {import_array()}
 
 	// Initializes the module.
 	bool Initialize()
