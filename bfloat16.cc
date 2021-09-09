@@ -16,6 +16,8 @@ limitations under the License.
    and remove requirements for pybind11 and other tensorflow dependencies
    Add support for scalar operations and python numeric types
 */
+/* Further modified by jakub1.piasecki@intel.com - Modifications to allow building on Windows and using with python2. 
+*/
 
 #include <iostream>
 #include <array>
@@ -2092,17 +2094,6 @@ namespace greenwaves
 		{NULL, NULL, 0, NULL}
 	};
 
-//	static struct PyModuleDef Bfloat16Module = {
-//		PyModuleDef_HEAD_INIT,
-//		"numpy_bfloat16",
-//		NULL,
-//		-1,
-//		Bfloat16ModuleMethods,
-//		NULL,
-//		NULL,
-//		NULL,
-//		NULL
-//	};
 
 #if PY_VERSION_HEX >= 0x03000000
   #define MOD_ERROR_VAL NULL
@@ -2115,9 +2106,9 @@ namespace greenwaves
 #else
   #define MOD_ERROR_VAL
   #define MOD_SUCCESS_VAL(val)
-  #define MOD_INIT(name) void init##name(void)
+  #define MOD_INIT(name) PyMODINIT_FUNC init##name(void)
   #define MOD_DEF(ob, name, methods) \
-		  ob = Py_InitModule3(name, methods, NULL);
+		  ob = Py_InitModule(name, methods);
 #endif
 
 	MOD_INIT(bfloat)
