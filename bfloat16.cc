@@ -309,7 +309,7 @@ namespace greenwaves
 	  #define nb_oct	nullptr,
 	  #define nb_hex	nullptr,
 	  #define nb_inplace_multiply nullptr,
-	#ifndef
+	#endif
 
 		PyNumberMethods PyBfloat16_AsNumber = {
 			nullptr,     	  	// nb_add
