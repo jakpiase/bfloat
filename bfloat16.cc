@@ -278,6 +278,11 @@ namespace greenwaves
 
 		// Hash function for PyBfloat16. We use the identity function, which is a weak
 		// hash function.
+#if PY_VERSION_HEX >= 0x03000000
+  #define hash_return_type Py_hash_t
+#else
+  #define hash_return_type long
+#endif
 		long PyBfloat16_Hash(PyObject *self)
 		{
 			bfloat16 x = reinterpret_cast<PyBfloat16 *>(self)->value;
@@ -297,7 +302,7 @@ namespace greenwaves
 			return PyLong_FromLong(y);
 		}
 
-	#if PY_MAJOR_VERSION >= 3
+	#if PY_VERSION_HEX >= 0x03000000
 	  #define nb_divide
 	  #define nb_coerce
 	  #define nb_oct
@@ -1714,7 +1719,7 @@ namespace greenwaves
 
 	// needed because in python < 3 import_array() returns void which causes error in Initialize()
 	
-	#if PY_MAJOR_VERSION >= 3
+	#if PY_VERSION_HEX >= 0x03000000
 	  #define import_array_return_type int
 	#else
       #define import_array_return_type void
@@ -2099,7 +2104,7 @@ namespace greenwaves
 //		NULL
 //	};
 
-#if PY_MAJOR_VERSION >= 3
+#if PY_VERSION_HEX >= 0x03000000
   #define MOD_ERROR_VAL NULL
   #define MOD_SUCCESS_VAL(val) val
   #define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
