@@ -2101,7 +2101,7 @@ namespace greenwaves
 		{
 			Py_DECREF(&bfloat16_type);
 			Py_DECREF(m);
-			return NULL;
+			return MOD_ERROR_VAL;
 		}
 
 		return MOD_SUCCESS_VAL(m);
