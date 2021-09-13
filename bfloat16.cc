@@ -49,7 +49,7 @@ float signcopy (float x, float y){
   return (signbit (x) != signbit (y) ? - x : x);
 }
 
-namespace greenwaves
+namespace paddle
 {
 	namespace
 	{
@@ -2112,10 +2112,10 @@ namespace greenwaves
 		  ob = Py_InitModule3(name, methods);
 #endif
 
-	MOD_INIT(bfloat)
+	MOD_INIT(paddle_bfloat)
 	{
 		PyObject *m;
-		MOD_DEF(m, "bfloat", Bfloat16ModuleMethods)
+		MOD_DEF(m, "paddle_bfloat", Bfloat16ModuleMethods)
 
 		if (m == NULL)
 			return MOD_ERROR_VAL;

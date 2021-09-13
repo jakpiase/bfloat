@@ -7,7 +7,7 @@ import shutil
 from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 
-PACKAGE_NAME='bfloat'
+PACKAGE_NAME='paddle_bfloat'
 
 
 if 'clean' in sys.argv:
@@ -46,11 +46,11 @@ module1 = Extension(PACKAGE_NAME,
                     extra_compile_args=['-std=c++11'])
 
 setup(name=PACKAGE_NAME,
-      version='1.1.1',
-      description='Numpy bfloat16 package',
+      version='0.1.1',
+      description='Paddle numpy bfloat16 package',
       license='Apache',
-      author='GreenWaves Technologies',
-      author_email='support@greenwaves-technologies.com',
+      author='Jakub Piasecki',
+      author_email='jakub1.piasecki@intel.com',
       setup_requires=['numpy>=1.13'],
       ext_modules=[module1],
       packages=find_packages(),
