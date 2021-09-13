@@ -19,6 +19,8 @@ limitations under the License.
 /* Further modified by jakub1.piasecki@intel.com - Modifications to allow building on Windows and using with python2. 
 */
 
+#include <Python.h>
+
 #include <iostream>
 #include <array>
 #include <locale>
@@ -27,7 +29,6 @@ limitations under the License.
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 // #define DEBUG_CALLS
 
-#include <Python.h>
 #include <cinttypes>
 #include <vector>
 #ifdef DEBUG_CALLS
@@ -281,11 +282,11 @@ namespace greenwaves
 		// Hash function for PyBfloat16. We use the identity function, which is a weak
 		// hash function.
 #if PY_VERSION_HEX >= 0x03000000
-  #define hash_return_type Py_hash_t
+  #define HASH_RETURN_TYPE Py_hash_t
 #else
-  #define hash_return_type long
+  #define HASH_RETURN_TYPE long
 #endif
-		long PyBfloat16_Hash(PyObject *self)
+		HASH_RETURN_TYPE PyBfloat16_Hash(PyObject *self)
 		{
 			bfloat16 x = reinterpret_cast<PyBfloat16 *>(self)->value;
 			return x.value;
@@ -1722,11 +1723,11 @@ namespace greenwaves
 	// needed because in python < 3 import_array() returns void which causes error in Initialize()
 	
 	#if PY_VERSION_HEX >= 0x03000000
-	  #define import_array_return_type int
+	  #define IMPORT_ARRAY_RETURN_TYPE int
 	#else
-      #define import_array_return_type void
+      #define IMPORT_ARRAY_RETURN_TYPE void
 	#endif
-	import_array_return_type wrapper_import_array() {import_array()}
+	IMPORT_ARRAY_RETURN_TYPE wrapper_import_array() {import_array()}
 
 	// Initializes the module.
 	bool Initialize()
@@ -2108,14 +2109,14 @@ namespace greenwaves
   #define MOD_SUCCESS_VAL(val)
   #define MOD_INIT(name) PyMODINIT_FUNC init##name(void)
   #define MOD_DEF(ob, name, methods) \
-		  ob = Py_InitModule(name, methods);
+		  ob = Py_InitModule3(name, methods);
 #endif
 
 	MOD_INIT(bfloat)
 	{
 		PyObject *m;
 		MOD_DEF(m, "bfloat", Bfloat16ModuleMethods)
-		//m = PyModule_Create(&Bfloat16Module);
+
 		if (m == NULL)
 			return MOD_ERROR_VAL;
 		RegisterNumpyBfloat16();
