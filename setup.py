@@ -46,7 +46,7 @@ module1 = Extension(PACKAGE_NAME,
                     extra_compile_args=['-std=c++11'])
 
 setup(name=PACKAGE_NAME,
-      version='0.1.1',
+      version='0.1.2',
       description='Paddle numpy bfloat16 package',
       license='Apache',
       author='Jakub Piasecki',

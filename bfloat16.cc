@@ -1723,11 +1723,15 @@ namespace paddle
 	// needed because in python < 3 import_array() returns void which causes error in Initialize()
 	
 	#if PY_VERSION_HEX >= 0x03000000
-	  #define IMPORT_ARRAY_RETURN_TYPE int
+	void* wrapper_import_array() {
+		import_array()
+		return NULL;
+	}
 	#else
-      #define IMPORT_ARRAY_RETURN_TYPE void
+	void wrapper_import_array() {
+		import_array()
+	}
 	#endif
-	IMPORT_ARRAY_RETURN_TYPE wrapper_import_array() {import_array()}
 
 	// Initializes the module.
 	bool Initialize()
