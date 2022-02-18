@@ -1,3 +1,7 @@
+name: Build
+
+on: push
+
 build_wheels:
   runs-on: ${{ matrix.os }}
   strategy:
