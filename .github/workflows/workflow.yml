@@ -20,6 +20,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install cibuildwheel==1.6.4
 
+      - name: Clone submodules
+        run: git submodule update --init --recursive
+
       - name: Build wheel
         run: python -m cibuildwheel --output-dir dist/
         env:
