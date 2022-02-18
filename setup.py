@@ -40,7 +40,6 @@ class my_build_ext(build_ext):
             pass
         build_ext.build_extensions(self)
 
-
 module1 = Extension(PACKAGE_NAME,
                     sources=['bfloat16.cc'],
                     extra_compile_args=['-std=c++11'])
