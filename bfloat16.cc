@@ -489,7 +489,7 @@ namespace paddle
 			// float16 != bfloat16.
 			// The downside of this is that NumPy scalar promotion does not work with
 			// bfloat16 values.
-			/*kind=*/'g',
+			/*kind=*/'V',
 			// TODO(phawkins): there doesn't seem to be a way of guaranteeing a type
 			// character is unique.
 			/*type=*/'E',
@@ -1802,6 +1802,22 @@ namespace paddle
 		{
 			return false;
 		}
+
+        Safe_PyObjectPtr typeDict_obj =
+                make_safe(PyObject_GetAttrString(numpy.get(), "sctypeDict"));
+        if (!typeDict_obj) return false;
+
+        // Add the type object to `numpy.typeDict`: that makes
+        // `numpy.dtype('bfloat16')` work.
+        if (PyDict_SetItemString(typeDict_obj.get(), "bfloat16",
+                                 reinterpret_cast<PyObject*>(&bfloat16_type)) < 0) {
+         return false;
+        }
+
+        if (PyDict_SetItemString(typeDict_obj.get(), "E",
+                                 reinterpret_cast<PyObject*>(&bfloat16_type)) < 0) {
+         return false;
+        }
 
 		// Support dtype(bfloat16)
 		if (PyDict_SetItemString(bfloat16_type.tp_dict, "dtype",
