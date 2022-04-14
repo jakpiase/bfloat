@@ -34,7 +34,13 @@ limitations under the License.
 #ifdef DEBUG_CALLS
 #include <iostream>
 #endif
+
+#ifdef PADDLE_BFLOAT_USE_PADDLE_PATH
+#include "paddle/fluid/framework/eigen.h"
+#else
 #include "eigen/Eigen/Core"
+#endif
+
 #include <fenv.h>
 #include "numpy/arrayobject.h"
 #include "numpy/ufuncobject.h"
@@ -49,11 +55,8 @@ float signcopy (float x, float y){
   return (signbit (x) != signbit (y) ? - x : x);
 }
 
-namespace paddle
+namespace paddle_bfloat
 {
-	namespace
-	{
-
 		using bfloat16 = Eigen::bfloat16;
 		using uint8 = std::uint8_t;
 		using int8 = std::int8_t;
@@ -361,6 +364,12 @@ namespace paddle
 			nullptr,                // nb_inplace_floor_divide
 			nullptr,                // nb_inplace_true_divide
 			nullptr,                // nb_index
+			#if PY_MAJOR_VERSION >= 3
+			#if PY_MINOR_VERSION >= 5
+				0,  // nb_matrix_multiply
+				0,  // nb_inplace_matrix_multiply
+			#endif
+			#endif
 		};
 
 		// format bfloat16. Convert to a float and call format on that
@@ -382,7 +391,7 @@ namespace paddle
 				METH_O,
 				"__format__ method for bfloat16"
 			},
-			{NULL}  /* Sentinel */
+			{NULL, NULL, 0, NULL} /* Sentinel */
 		};
 
 
@@ -473,6 +482,12 @@ namespace paddle
 			nullptr,						  // tp_weaklist
 			nullptr,						  // tp_del
 			0,								  // tp_version_tag
+			#if PY_VERSION_HEX >= 0x030400a1
+				0,  // tp_finalize
+			#endif
+			#if PY_VERSION_HEX >= 0x03080000
+				0,  // tp_vectorcall
+			#endif
 		};
 
 
@@ -1713,12 +1728,7 @@ namespace paddle
 					return out;
 				}
 			};
-
-			// TODO(phawkins): implement spacing
-
-		} // namespace ufuncs
-
-	} // namespace
+		}
 
 	// needed because in python < 3 import_array() returns void which causes error in Initialize()
 	
@@ -1802,6 +1812,22 @@ namespace paddle
 		{
 			return false;
 		}
+
+        Safe_PyObjectPtr typeDict_obj =
+                make_safe(PyObject_GetAttrString(numpy.get(), "sctypeDict"));
+        if (!typeDict_obj) return false;
+
+        // Add the type object to `numpy.typeDict`: that makes
+        // `numpy.dtype('bfloat16')` work.
+        if (PyDict_SetItemString(typeDict_obj.get(), "bfloat16",
+                                 reinterpret_cast<PyObject*>(&bfloat16_type)) < 0) {
+         return false;
+        }
+
+        if (PyDict_SetItemString(typeDict_obj.get(), "E",
+                                 reinterpret_cast<PyObject*>(&bfloat16_type)) < 0) {
+         return false;
+        }
 
 		// Support dtype(bfloat16)
 		if (PyDict_SetItemString(bfloat16_type.tp_dict, "dtype",
@@ -2135,4 +2161,4 @@ namespace paddle
 
 		return MOD_SUCCESS_VAL(m);
 	}
-} // namespace greenwaves
+} // namespace paddle_bfloat
