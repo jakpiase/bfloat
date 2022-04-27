@@ -3,7 +3,127 @@ name: Build
 on: push
 
 jobs:
-  build_wheels:
+  build_wheels_36:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-10.15, windows-2019]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.6"
+
+      - name: Setup pip
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==1.13
+          python -m pip install cibuildwheel==2.4.0
+
+      - name: Clone submodules
+        run: git submodule update --init --recursive
+
+      - name: Build wheel
+        run: python -m cibuildwheel --output-dir dist/
+        env:
+          CIBW_BUILD: cp36-*
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*.whl
+          
+  build_wheels_37:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-10.15, windows-2019]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+
+      - name: Setup pip
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==1.15
+          python -m pip install cibuildwheel==2.4.0
+
+      - name: Clone submodules
+        run: git submodule update --init --recursive
+
+      - name: Build wheel
+        run: python -m cibuildwheel --output-dir dist/
+        env:
+          CIBW_BUILD: cp37-*
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*.whl
+          
+  build_wheels_38:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-10.15, windows-2019]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Setup pip
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==1.18
+          python -m pip install cibuildwheel==2.4.0
+
+      - name: Clone submodules
+        run: git submodule update --init --recursive
+
+      - name: Build wheel
+        run: python -m cibuildwheel --output-dir dist/
+        env:
+          CIBW_BUILD: cp38-*
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*.whl
+          
+  build_wheels_39:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-10.15, windows-2019]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Setup pip
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==1.20
+          python -m pip install cibuildwheel==2.4.0
+
+      - name: Clone submodules
+        run: git submodule update --init --recursive
+
+      - name: Build wheel
+        run: python -m cibuildwheel --output-dir dist/
+        env:
+          CIBW_BUILD: cp39-*
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*.whl
+          
+  build_wheels_310:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -18,8 +138,7 @@ jobs:
       - name: Setup pip
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy>=1.13
-          python -m pip install numpy --upgrade
+          python -m pip install numpy==1.22
           python -m pip install cibuildwheel==2.4.0
 
       - name: Clone submodules
@@ -28,7 +147,7 @@ jobs:
       - name: Build wheel
         run: python -m cibuildwheel --output-dir dist/
         env:
-          CIBW_BUILD: cp36-* cp37-* cp38-* cp39-* cp310-*
+          CIBW_BUILD: cp310-*
 
       - uses: actions/upload-artifact@v2
         with:
