@@ -50,6 +50,7 @@ jobs:
 
       - name: Setup pip
         run: |
+          python --version
           python -m pip install --upgrade pip
           python -m pip uninstall --yes numpy
           python -m pip uninstall --yes paddle_bfloat
