@@ -1,6 +1,3 @@
-from setuptools import dist
-dist.Distribution().fetch_build_eggs(['numpy>=1.13'])
-
 import os
 import sys
 import shutil
@@ -31,6 +28,7 @@ class my_build_ext(build_ext):
         # Prevent numpy from thinking it is still in its setup process:
         set_builtin('__NUMPY_SETUP__', False)
         import numpy
+        print("Installing paddle_bfloat using numpy version: " + numpy.__version__)
         self.include_dirs.append(numpy.get_include())
 
     def build_extensions(self):
