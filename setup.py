@@ -1,6 +1,3 @@
-from setuptools import dist
-dist.Distribution().fetch_build_eggs(['numpy>=1.13'])
-
 import os
 import sys
 import shutil
@@ -8,7 +5,6 @@ from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 
 PACKAGE_NAME='paddle_bfloat'
-
 
 if 'clean' in sys.argv:
     curdir = os.path.dirname(os.path.realpath(__file__))
@@ -45,7 +41,7 @@ module1 = Extension(PACKAGE_NAME,
                     extra_compile_args=['-std=c++11'])
 
 setup(name=PACKAGE_NAME,
-      version='0.1.3',
+      version='0.1.4',
       description='Paddle numpy bfloat16 package',
       license='Apache',
       author='Jakub Piasecki',
