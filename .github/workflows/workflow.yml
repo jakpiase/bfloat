@@ -28,7 +28,7 @@ jobs:
         env:
           CIBW_BUILD: cp36-*
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==1.13.0
-          CIBW_ARCHS_MACOS: x86_64 arm64
+          CIBW_ARCHS: all
 
       - uses: actions/upload-artifact@v2
         with:
@@ -59,7 +59,7 @@ jobs:
         env:
           CIBW_BUILD: cp37-*
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==1.14.5
-          CIBW_ARCHS_MACOS: x86_64 arm64
+          CIBW_ARCHS: all
 
       - uses: actions/upload-artifact@v2
         with:
@@ -90,7 +90,7 @@ jobs:
         env:
           CIBW_BUILD: cp38-*
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==1.17.3
-          CIBW_ARCHS_MACOS: x86_64 arm64
+          CIBW_ARCHS: all
 
       - uses: actions/upload-artifact@v2
         with:
@@ -121,7 +121,7 @@ jobs:
         env:
           CIBW_BUILD: cp39-*
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==1.19.3
-          CIBW_ARCHS_MACOS: x86_64 arm64
+          CIBW_ARCHS: all
 
       - uses: actions/upload-artifact@v2
         with:
@@ -152,7 +152,7 @@ jobs:
         env:
           CIBW_BUILD: cp310-*
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==1.22
-          CIBW_ARCHS_MACOS: x86_64 arm64
+          CIBW_ARCHS: all
 
       - uses: actions/upload-artifact@v2
         with:
