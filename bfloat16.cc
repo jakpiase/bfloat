@@ -485,9 +485,12 @@ namespace paddle_bfloat
 			#if PY_VERSION_HEX >= 0x030400a1
 				0,  // tp_finalize
 			#endif
-			#if PY_VERSION_HEX >= 0x03080000
-				0,  // tp_vectorcall
-			#endif
+            #if PY_VERSION_HEX >= 0x030800b1
+                0,                           // tp_vectorcall
+            #endif
+            #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
+                0,                           // tp_print
+            #endif
 		};
 
 
