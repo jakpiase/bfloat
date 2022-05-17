@@ -7,12 +7,24 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019]
-        python-version: ['3.9']
+        os: [ubuntu-18.04, macos-10.15, windows-2019]
+        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
         include:
+          - python-version: '3.6'
+            numpy-version: 1.13.0
+            ci-build-regex: cp36-*
+          - python-version: '3.7'
+            numpy-version: 1.14.5
+            ci-build-regex: cp37-*
+          - python-version: '3.8'
+            numpy-version: 1.17.3
+            ci-build-regex: cp38-*
           - python-version: '3.9'
             numpy-version: 1.19.3
             ci-build-regex: cp39-*
+          - python-version: '3.10'
+            numpy-version: 1.22
+            ci-build-regex: cp310-*
             
     steps:
       - uses: actions/checkout@v2
@@ -22,6 +34,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           
       - name: Set up QEMU
+        if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v1
         with:
           platforms: all
