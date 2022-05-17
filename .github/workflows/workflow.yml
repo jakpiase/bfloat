@@ -38,7 +38,7 @@ jobs:
       - name: Build wheel
         run: python -m cibuildwheel --output-dir dist/
         env:
-          CIBW_ARCHS: arm64
+          CIBW_ARCHS: ARM64
           CIBW_BUILD: ${{ matrix.ci-build-regex }}
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==${{ matrix.numpy-version }}
 
