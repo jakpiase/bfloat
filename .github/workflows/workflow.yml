@@ -8,14 +8,11 @@ jobs:
     strategy:
       matrix:
         os: [windows-2019]
-        python-version: ['3.9', '3.10']
+        python-version: ['3.9']
         include:
           - python-version: '3.9'
             numpy-version: 1.19.3
             ci-build-regex: cp39-*
-          - python-version: '3.10'
-            numpy-version: 1.22
-            ci-build-regex: cp310-*
             
     steps:
       - uses: actions/checkout@v2
@@ -41,7 +38,7 @@ jobs:
       - name: Build wheel
         run: python -m cibuildwheel --output-dir dist/
         env:
-          CIBW_ARCHS: all
+          CIBW_ARCHS: arm64
           CIBW_BUILD: ${{ matrix.ci-build-regex }}
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==${{ matrix.numpy-version }}
 
