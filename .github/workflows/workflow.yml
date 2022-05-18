@@ -25,6 +25,10 @@ jobs:
           - python-version: '3.10'
             numpy-version: 1.22
             ci-build-regex: cp310-*
+          - os: ubuntu-18.04
+            linux_archs: "x86_64 i686 aarch64"
+          - os: ubuntu-18.04
+            linux_archs: "ppc64le s390x"
             
     steps:
       - uses: actions/checkout@v2
@@ -51,7 +55,7 @@ jobs:
         run: python -m cibuildwheel --output-dir dist/
         env:
           CIBW_ARCHS_MACOS: all
-          CIBW_ARCHS_LINUX: all
+          CIBW_ARCHS_LINUX: ${{ matrix.linux_archs }}
           CIBW_ARCHS_WINDOWS: AMD64 x86
           CIBW_BUILD: ${{ matrix.ci-build-regex }}
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==${{ matrix.numpy-version }}
