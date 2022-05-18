@@ -1,0 +1,73 @@
+name: Build
+
+on: push
+
+jobs:
+  build_wheels:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-10.15, windows-2019]
+        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
+        linux-archs: ['x86_64 i686 aarch64', 'ppc64le', 's390x']
+        include:
+          - python-version: '3.6'
+            numpy-version: 1.13.0
+            ci-build-regex: cp36-*
+          - python-version: '3.7'
+            numpy-version: 1.14.5
+            ci-build-regex: cp37-*
+          - python-version: '3.8'
+            numpy-version: 1.17.3
+            ci-build-regex: cp38-*
+          - python-version: '3.9'
+            numpy-version: 1.19.3
+            ci-build-regex: cp39-*
+          - python-version: '3.10'
+            numpy-version: 1.22
+            ci-build-regex: cp310-*
+        exclude:
+          - os: macos-10.15
+            linux-archs: 'ppc64le'
+          - os: macos-10.15
+            linux-archs: 's390x'
+          - os: windows-2019
+            linux-archs: 'ppc64le'
+          - os: windows-2019
+            linux-archs: 's390x'
+            
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: all
+
+      - name: Setup pip
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install cibuildwheel==2.5.0
+
+      - name: Clone submodules
+        run: git submodule update --init --recursive
+
+      - name: Build wheel
+        run: python -m cibuildwheel --output-dir dist/
+        env:
+          CIBW_ARCHS_MACOS: all
+          CIBW_ARCHS_LINUX: ${{ matrix.linux-archs }}
+          CIBW_ARCHS_WINDOWS: AMD64 x86
+          CIBW_BUILD: ${{ matrix.ci-build-regex }}
+          CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==${{ matrix.numpy-version }}
+          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux1_x86_64
+          CIBW_MANYLINUX_I686_IMAGE: quay.io/pypa/manylinux1_i686
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*.whl
