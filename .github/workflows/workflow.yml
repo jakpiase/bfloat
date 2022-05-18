@@ -9,8 +9,8 @@ jobs:
       matrix:
         os: [ubuntu-18.04]
         python-version: ['3.9']
-        linux-archs: ['x86_64 i686', 'aarch64']
-        ci-build-regex: ['cp39-many*', 'cp39-musl*']
+        linux-archs: ['x86_64 i686']
+        ci-build-regex: ['cp39-many*']
         include:
           - python-version: '3.9'
             numpy-version: 1.19.3
