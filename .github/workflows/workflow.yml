@@ -9,7 +9,7 @@ jobs:
       matrix:
         os: [ubuntu-18.04, macos-10.15, windows-2019]
         python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
-        linux-archs: ['x86_64 i686 aarch64', 'ppc64le s390x']
+        linux-archs: ['x86_64 i686 aarch64', 'ppc64le', 's390x']
         include:
           - python-version: '3.6'
             numpy-version: 1.13.0
@@ -28,9 +28,13 @@ jobs:
             ci-build-regex: cp310-*
         exclude:
           - os: macos-10.15
-            linux-archs: 'ppc64le s390x'
+            linux-archs: 'ppc64le'
+          - os: macos-10.15
+            linux-archs: 's390x'
           - os: windows-2019
-            linux-archs: 'ppc64le s390x'
+            linux-archs: 'ppc64le'
+          - os: windows-2019
+            linux-archs: 's390x'
             
     steps:
       - uses: actions/checkout@v2
