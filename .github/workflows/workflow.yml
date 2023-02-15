@@ -27,7 +27,7 @@ jobs:
             numpy-version: 1.22
             ci-build-regex: cp310-*
           - python-version: '3.11'
-            numpy-version: 1.23.1
+            numpy-version: 1.23.2
             ci-build-regex: cp311-*
         exclude:
           - os: macos-10.15
