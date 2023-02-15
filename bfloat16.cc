@@ -1808,7 +1808,11 @@ namespace paddle_bfloat
 		NPyBfloat16_ArrFuncs.argmax = NPyBfloat16_ArgMaxFunc;
 		NPyBfloat16_ArrFuncs.argmin = NPyBfloat16_ArgMinFunc;
 
+#if PY_VERSION_HEX < 0x030b0000
+		Py_TYPE(&NPyBfloat16_Descr) = &PyArrayDescr_Type;
+#else
 		Py_SET_TYPE(&NPyBfloat16_Descr, &PyArrayDescr_Type);
+#endif
 		npy_bfloat16 = PyArray_RegisterDataType(&NPyBfloat16_Descr);
 		bfloat16_type_ptr = &bfloat16_type;
 		if (npy_bfloat16 < 0)
