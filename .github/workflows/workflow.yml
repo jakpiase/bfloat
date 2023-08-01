@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build_wheels:
-    runs-on: ${{ matrix.os }}
+    runs-on: 'ubuntu-20.04'
     strategy:
       matrix:
         os: ['ubuntu-20.04']
@@ -63,9 +63,7 @@ jobs:
       - name: Build wheel
         run: python -m cibuildwheel --output-dir dist/
         env:
-          CIBW_ARCHS_MACOS: all
           CIBW_ARCHS_LINUX: ${{ matrix.linux-archs }}
-          CIBW_ARCHS_WINDOWS: AMD64 x86
           CIBW_BUILD: ${{ matrix.ci-build-regex }}
           CIBW_BEFORE_BUILD: python -m pip install --force-reinstall --no-cache-dir numpy==${{ matrix.numpy-version }}
           CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux2014_x86_64
