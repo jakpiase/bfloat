@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: ['ubuntu-20.04']
         python-version: ['3.11']
         linux-archs: ['aarch64 ppc64le s390x']
         include:
