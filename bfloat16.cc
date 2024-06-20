@@ -507,7 +507,7 @@ namespace paddle_bfloat
 			// float16 != bfloat16.
 			// The downside of this is that NumPy scalar promotion does not work with
 			// bfloat16 values.
-			/*kind=*/'g',
+			/*kind=*/'V',
 			// TODO(phawkins): there doesn't seem to be a way of guaranteeing a type
 			// character is unique.
 			/*type=*/'E',
